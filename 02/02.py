@@ -25,7 +25,7 @@ resultsTwo = [
 sumOne = 0
 sumTwo = 0
 
-with open(r".\input.txt") as file:
+with open(r".\02\input.txt") as file:
     for line in file:
         sumOne = sumOne + resultsOne[resultsOne.index(line.rstrip('\n')) + 1]
         sumTwo = sumTwo + resultsTwo[resultsTwo.index(line.rstrip('\n')) + 1]

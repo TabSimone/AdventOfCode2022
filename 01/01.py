@@ -1,7 +1,7 @@
 maxSum = 0
 currentSum = 0
 
-with open(r".\input.txt") as file:
+with open(r".\01\input.txt") as file:
     for line in file:
         if(line == '\n') :
             if(maxSum < currentSum):
