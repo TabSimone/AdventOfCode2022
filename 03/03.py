@@ -1,33 +1,24 @@
-firstPartResult = 0
-secondPartResult = 0
-counter = 0
+#Using ASCII to return value
+def elementToValue(element):
+ if(element.islower()):
+        return ord(element)-96
+ else:
+        return ord(element)-38
 
-with open(r".\03\input2.txt") as file:
-
-    rucksack1 = ""
-    rucksack2 = ""
-    rucksack3 = ""
-    value = 0
+with open(r".\03\input.txt") as file:
+    firstPartResult = 0 
+    secondPartResult = 0   
+    counter = 0
     for line in file:
-        print(line.splitlines())
-        arrayOfLine = list(line)
+        arrayOfLine = list(line.rstrip('\n'))
 
         #First Part
-        firstRucksacks = arrayOfLine[:int((len(arrayOfLine)/2))]
-        secondRucksacks = arrayOfLine[int((len(arrayOfLine)/2)):]
-        
-        #Clean line break
-        if "\n" in secondRucksacks:
-                secondRucksacks.remove("\n")
+        firstRucksacks = arrayOfLine[:int((len(arrayOfLine))/2)]
+        secondRucksacks = arrayOfLine[int((len(arrayOfLine))/2):]
 
         #Use intersection to find common Element + from array to single character
         commonElement = ''.join(set(firstRucksacks).intersection(secondRucksacks))
-
-        #Now I can calculate the value, based on ASCII
-        if(commonElement.islower()):
-                firstPartResult = firstPartResult + ord(commonElement)-96
-        else:
-                firstPartResult = firstPartResult + ord(commonElement)-38
+        firstPartResult += elementToValue(commonElement)
 
         #Second Part
         if(counter == 0):
@@ -37,8 +28,9 @@ with open(r".\03\input2.txt") as file:
                 rucksack2 = arrayOfLine
                 counter += 1
         elif(counter==2):
-                rucksack3 = arrayOfLine
                 counter = 0
-                value = set(rucksack1) & set(rucksack2) & set(rucksack3)
-                print(value)
-#print(firstPartResult)
+                secondPartResult += elementToValue(''.join(set(rucksack1) & set(rucksack2) & set(arrayOfLine)))
+
+print(firstPartResult)
+print(secondPartResult)
+
