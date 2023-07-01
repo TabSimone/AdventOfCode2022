@@ -1,35 +1,19 @@
-#I declare the tree where I append every path and file
-class TreeNode:
-    def __init__(self, data):
-        self.data = data
-        self.children = []
+from collections import defaultdict
+from itertools import accumulate
 
-    def add_child(self, child):
-        self.children.append(child)
 
-    def remove_child(self, child):
-        self.children.remove(child)
+dirs = defaultdict(int)
 
-    def print_tree(self, level=0):
-        indent = "  " * level
-        print(indent + self.data)
-        for child in self.children:
-            child.print_tree(level + 1)     
+for line in open('input.txt'):
+    match line.split():
+        case '$', 'cd', '/': curr = ['/']
+        case '$', 'cd', '..': curr.pop()
+        case '$', 'cd', x: curr.append(x+'/')
+        case '$', 'ls': pass
+        case 'dir', _: pass
+        case size, _:
+            for p in accumulate(curr):
+                dirs[p] += int(size)
 
-#I declare immediately the principal directory
-root = TreeNode("/");
-
-#Variable to keep track of current directory
-currentDirectory = "/"
-
-file_path = r"C:\Users\taban\OneDrive\Documents\GitHub\AdventOfCode2022\07\input.txt"
-
-with open(file_path, "r") as file:
-    for line in file:
-        if "/" in line: 
-            x="/"
-        if "cd" in line and "/" not in line:
-            TreeNode(x).add_child(line[-1])
-            x = line[-1]
-            
-root.print_tree()
+print(sum(s for s in dirs.values() if s <= 100_000),
+      min(s for s in dirs.values() if s >= dirs['/'] - 40_000_000))
